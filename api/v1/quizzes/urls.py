@@ -4,5 +4,6 @@ from api.v1.quizzes import views
  
 urlpatterns = [
     path('',views.quizzes),
-    # path('single_question/',views.single_question),
+    path('statistics/<int:pk>/',views.statistics),
+    path('change-statistics/<int:pk>/',views.changeStatistics),
 ]
