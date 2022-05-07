@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
  
-from web.models import Question,Statistics
+from web.models import Question,Score,Statistics
 from rest_framework import serializers
  
  
@@ -8,6 +8,12 @@ class QuestionSerializer(ModelSerializer):
     class Meta:
         fields =("id","question","answer","option_one","option_two","option_three","option_four")
         model = Question
+
+
+class ScoreSerializer(ModelSerializer):
+    class Meta:
+        fields =("id","number","score")
+        model = Score
 
 
 class StatisticsSerializer(ModelSerializer):

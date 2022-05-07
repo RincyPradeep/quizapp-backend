@@ -32,3 +32,11 @@ class Statistics(models.Model):
  
     def __str__(self):
         return str(self.id)
+
+
+class Score(models.Model):
+    number = models.IntegerField()
+    score = models.BigIntegerField()
+
+    def __str__(self):
+        return str(self.number)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from web.models import Question,Statistics
+from web.models import Question,Statistics,Score
  
  
 class QuestionAdmin(admin.ModelAdmin):
@@ -12,3 +12,9 @@ class StatisticsAdmin(admin.ModelAdmin):
     list_display = ["id","user","money_earned"]
  
 admin.site.register(Statistics,StatisticsAdmin)
+
+
+class ScoreAdmin(admin.ModelAdmin):
+    list_display = ["id","number","score"]
+ 
+admin.site.register(Score,ScoreAdmin)
