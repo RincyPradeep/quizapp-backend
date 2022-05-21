@@ -8,7 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from django.contrib.auth.models import User
-# from api.v1.auth.serializers import ProfileSerializer
+from web.models import Statistics
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -27,7 +27,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def create(request):
-    # form = ProfileForm()
     first_name = request.data["first_name"]
     last_name = request.data["last_name"]
     email = request.data["email"]
@@ -42,6 +41,15 @@ def create(request):
             username = username,
             password = password
         )
+        statistics = Statistics.objects.create(user = user,
+                              questions_answered = 0,
+                              correct_answers = 0,
+                              wrong_answers = 0,
+                              correct_percentage = 0,
+                              games_played = 0,
+                              games_won = 0,
+                              win_rate = 0,
+                              money_earned = 0)
 
         headers={
             "content-Type" : "application/json" 

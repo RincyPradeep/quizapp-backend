@@ -33,22 +33,27 @@ def scores(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def statistics(request,pk):
-     if not(User.objects.filter(id = pk)).exists():
-          response_data = {
-               'status_code' : 6001,
-               'message' : 'No such user found!'
-          }
-          return Response(response_data)
-     else:
-          if Statistics.objects.filter(user_id = pk).exists():
-               instances = Statistics.objects.filter(user_id = pk)    
-               context = {"request" : request}
-               serializer = StatisticsSerializer(instances,many=True,context=context)
-               response_data = {
-                    'status_code' : 6000,
-                    'data' : serializer.data
-               }
-               return Response(response_data)
+    if not(User.objects.filter(id = pk)).exists():
+        response_data = {
+            'status_code' : 6001,
+            'message' : 'No such user found!'
+        }
+        return Response(response_data)
+    else:
+        if Statistics.objects.filter(user_id = pk).exists():
+            instances = Statistics.objects.filter(user_id = pk)    
+            context = {"request" : request}
+            serializer = StatisticsSerializer(instances,many=True,context=context)
+            response_data = {
+                'status_code' : 6000,
+                'data' : serializer.data
+            }
+        else:
+            response_data = {
+                'status_code' : 6001,
+                'message' : 'No such statistics found!'
+            }
+        return Response(response_data)
 
 
 @api_view(["POST"])
@@ -84,9 +89,16 @@ def changeStatistics(request,pk):
             old_games_won = statistics.values("games_won")           
             old_money_earned = statistics.values("money_earned")
             
-            correct_percentage = ((correct_answers + old_correct_answers[0].get("correct_answers")) / (questions_answered + old_questions_answered[0].get("questions_answered")) ) * 100
-            win_rate = ((games_won + old_games_won[0].get("games_won")) / (games_played + old_games_played[0].get("games_played"))) * 100
+            if old_questions_answered[0].get("questions_answered")!=0:
+                correct_percentage = ((correct_answers + old_correct_answers[0].get("correct_answers")) / (questions_answered + old_questions_answered[0].get("questions_answered")) ) * 100
+            else:
+                correct_percentage = 0
 
+            if old_games_played[0].get("games_played")!=0:
+                win_rate = ((games_won + old_games_won[0].get("games_won")) / (games_played + old_games_played[0].get("games_played"))) * 100
+            else:
+                win_rate = 0
+                
             statistics.update(questions_answered = questions_answered + old_questions_answered[0].get("questions_answered"),
                               correct_answers = correct_answers + old_correct_answers[0].get("correct_answers"),
                               wrong_answers = wrong_answers + old_wrong_answers[0].get("wrong_answers"),
@@ -99,5 +111,10 @@ def changeStatistics(request,pk):
                 'status_code' : 6000,
                 'message' : "Statistics Updated"
             }
+        else:
+            response_data = {
+            'status_code' : 6001,
+            'message' : 'Statistics not found!'
+        } 
         
     return Response(response_data)
