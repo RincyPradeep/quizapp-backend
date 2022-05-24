@@ -2,7 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = "web_category"
+        verbose_name_plural = "categories"
+
+    def __str__(self):
+        return self.name 
+
+
 class Question(models.Model):
+    category = models.ForeignKey("web.Category",on_delete=models.CASCADE,default=1)
     question = models.CharField(max_length=250)
     answer = models.CharField(max_length=128)
     option_one = models.CharField(max_length=128)

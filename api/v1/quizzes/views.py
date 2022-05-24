@@ -6,18 +6,54 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 import random
  
-from api.v1.quizzes.serializers import QuestionSerializer,ScoreSerializer,StatisticsSerializer
-from web.models import Question,Score,Statistics
+from api.v1.quizzes.serializers import QuestionSerializer,ScoreSerializer,StatisticsSerializer,CategorySerializer
+from web.models import Question,Score,Statistics,Category
 
 from django.contrib.auth.models import User
- 
- 
+
+
 @api_view(["GET"])
 @permission_classes([AllowAny])
-def quizzes(request):
-     instances = Question.objects.filter(is_deleted = False)
+def category(request,pk):
+    if pk == 0:
+        if Question.objects.filter(is_deleted = False).exists():
+            instances = Question.objects.filter(is_deleted = False)
+            context = {"request" : request}
+            serializer = QuestionSerializer(instances,many =True,context=context)
+            response_data = {
+                'status_code' : 6000,
+                'data' : serializer.data
+            }
+        else:
+            response_data = {
+            'status_code' : 6001,
+            'message' : 'No data found'
+        }
+
+    else:
+        if Question.objects.filter(Q(is_deleted = False),Q(category=pk)).exists():
+            instances = Question.objects.filter(Q(is_deleted = False),Q(category=pk))
+            context = {"request" : request}
+            serializer = QuestionSerializer(instances,many =True,context=context)
+            response_data = {
+                'status_code' : 6000,
+                'data' : serializer.data
+            }
+        else:
+            response_data = {
+            'status_code' : 6001,
+            'message' : 'No data found'
+        }
+        
+    return Response(response_data)
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def categories(request):
+     instances = Category.objects.all()
      context = {"request" : request}
-     serializer = QuestionSerializer(instances,many =True,context=context)
+     serializer = CategorySerializer(instances,many =True,context=context)
      return Response(serializer.data)
 
 

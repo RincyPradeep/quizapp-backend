@@ -1,9 +1,9 @@
 from django.contrib import admin
-from web.models import Question,Statistics,Score
+from web.models import Question,Statistics,Score,Category
  
  
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ["id","question","answer"]
+    list_display = ["id","category","question","answer"]
  
 admin.site.register(Question,QuestionAdmin)
 
@@ -18,3 +18,9 @@ class ScoreAdmin(admin.ModelAdmin):
     list_display = ["id","number","score"]
  
 admin.site.register(Score,ScoreAdmin)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["id","name"]
+ 
+admin.site.register(Category,CategoryAdmin)

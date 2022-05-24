@@ -1,13 +1,24 @@
 from rest_framework.serializers import ModelSerializer
  
-from web.models import Question,Score,Statistics
+from web.models import Question,Score,Statistics,Category
 from rest_framework import serializers
  
  
 class QuestionSerializer(ModelSerializer):
+    category = serializers.SerializerMethodField()
+
     class Meta:
-        fields =("id","question","answer","option_one","option_two","option_three","option_four")
+        fields =("id","category","question","answer","option_one","option_two","option_three","option_four")
         model = Question
+
+    def get_category(self,instance):
+        return instance.category.name
+
+
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        fields =("id","name")
+        model = Category
 
 
 class ScoreSerializer(ModelSerializer):
