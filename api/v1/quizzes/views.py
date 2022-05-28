@@ -109,7 +109,6 @@ def changeStatistics(request,pk):
             'message' : "There was something wrong while updating your statistics."
         }
         return Response(response_data)
-
     if not(User.objects.filter(id = user)).exists():
         response_data = {
             'status_code' : 6001,
@@ -125,12 +124,12 @@ def changeStatistics(request,pk):
             old_games_won = statistics.values("games_won")           
             old_money_earned = statistics.values("money_earned")
             
-            if old_questions_answered[0].get("questions_answered")!=0:
+            if old_questions_answered[0].get("questions_answered")!=0 or questions_answered > 0:
                 correct_percentage = ((correct_answers + old_correct_answers[0].get("correct_answers")) / (questions_answered + old_questions_answered[0].get("questions_answered")) ) * 100
             else:
                 correct_percentage = 0
 
-            if old_games_played[0].get("games_played")!=0:
+            if old_games_played[0].get("games_played")!=0 or games_played > 0:
                 win_rate = ((games_won + old_games_won[0].get("games_won")) / (games_played + old_games_played[0].get("games_played"))) * 100
             else:
                 win_rate = 0
