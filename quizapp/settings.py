@@ -138,7 +138,9 @@ STATICFILES_DIRS = []
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGINS_WHITELIST = [
+    "http://localhost:3000"
+]
 
 import dj_database_url
 
