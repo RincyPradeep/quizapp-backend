@@ -1,15 +1,18 @@
 from pathlib import Path
 from datetime import timedelta
+import os
+import dj_database_url
 import django_heroku
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-zftuy#rw1)r+v--l#k7=kjs1p!hamq361#*86ea%)*7h=*$)4a'
+# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "django-insecure-zftuy#rw1)r+v--l#k7=kjs1p!hamq361#*86ea%)*7h=*$)4a"
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost","quizzmaster-django.herokuapp.com"]
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -145,10 +148,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://localhost:3000"
 # ]
 
-django_heroku.settings(locals())
-
-import dj_database_url
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 
 DATABASES['default'].update(db_from_env)
+
+django_heroku.settings(locals())
