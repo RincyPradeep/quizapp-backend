@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import timedelta
+import django_heroku
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -143,6 +144,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ORIGINS_WHITELIST = [
 #     "http://localhost:3000"
 # ]
+
+django_heroku.settings(locals())
 
 import dj_database_url
 
