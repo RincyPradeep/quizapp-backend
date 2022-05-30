@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-zftuy#rw1)r+v--l#k7=kjs1p!hamq361#*86ea%)*7h=*$)4a
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost","quizzmaster-django.herokuapp.com"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -134,6 +134,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = []
 
