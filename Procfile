@@ -1,1 +1,1 @@
-web: gunicorn quizapp.wsgi.py --log-file -
+web: gunicorn quizapp.wsgi.py
